@@ -19,15 +19,15 @@ func init() {
 	}))
 
 	// 从配置文件获得domainname和appname
-	host := beego.AppConfig.String("domainname") // api.fenggese.com
-	appname := beego.AppConfig.String("appname") // beego-template
-	namespace := "/" + host + "/" + appname      // /api.fenggese.com/beego-template
+	host := beego.AppConfig.String("domainname") // 例如：api.fenggese.com
+	appname := beego.AppConfig.String("appname") // 例如：beego-template
+	namespace := "/" + host + "/" + appname      // 例如：/api.fenggese.com/beego-template
 
 	// /host/appname
 	ns := beego.NewNamespace(namespace,
-
-		// /host/appname/subjects
+		// /host/appname/test
 		beego.NSNamespace("/test",
+			// /host/appname/test/v1
 			beego.NSNamespace("/v1", beego.NSInclude(&controllers.TestController{})),
 		),
 	)
