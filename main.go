@@ -37,6 +37,7 @@ func init() {
 	initLog()
 	initMysql()
 	initRedis()
+	initError()
 	logs.Info("初始化工作完毕！")
 }
 

@@ -1,30 +1,27 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
+	"fmt"
 )
 
 type ErrorController struct {
-	beego.Controller
+	BaseController
 }
 
 // Abort("404")
 func (this *ErrorController) Error404() {
-	this.Ctx.Output.Status = 404
-	this.Data["json"] = map[string]string{"error": "Api not found", "msgs": this.Ctx.Request.URL.Path}
-	this.ServeJSON()
+	err := fmt.Errorf("Api not fount. url: %s", this.Ctx.Request.URL.Path)
+	this.ResponseHttpError(404, "404", err)
 }
 
 // Abort("500")
 func (this *ErrorController) Error500() {
-	this.Ctx.Output.Status = 500
-	this.Data["json"] = map[string]string{"error": "Internal server error"}
-	this.ServeJSON()
+	err := fmt.Errorf("Internal server error")
+	this.ResponseHttpError(500, "500", err)
 }
 
 // Abort("405")
 func (this *ErrorController) Error405() {
-	this.Ctx.Output.Status = 405
-	this.Data["json"] = map[string]string{"error": "API not used"}
-	this.ServeJSON()
+	err := fmt.Errorf("API not used. url: %s", this.Ctx.Request.URL.Path)
+	this.ResponseHttpError(405, "405", err)
 }

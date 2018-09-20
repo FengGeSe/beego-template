@@ -27,4 +27,31 @@ main.go  # 程序入口
 
 # 测试接口
 http://{ip}:{port}/{domainname}/{appname}/test/v1
-例如：http://localhost:8080/api.fenggese.com/beego-template/test/v1
+例如：
+1. say hello
+http://localhost:8080/api.fenggese.com/beego-template/test/v1
+```
+{
+    code: "ok",
+    message: "success",
+    data: {
+        test: "hello, my appname is: beego-template"
+    }
+}
+```
+服务端报错: http://localhost:8080/api.fenggese.com/beego-template/test/v1/400
+```
+{
+    code: "test:Error500",
+    message: "服务器出错",
+    data: null
+}
+```
+客户端报错: http://localhost:8080/api.fenggese.com/beego-template/test/v1/500
+```
+{
+    code: "test:Error400",
+    message: "客户端请求错误",
+    data: null
+}
+```
