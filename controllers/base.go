@@ -1,22 +1,36 @@
 package controllers
 
 import (
-	"fenggese.com/beego-template/models"
 	"github.com/astaxie/beego"
 )
 
 type BaseController struct {
 	beego.Controller
+	Resp
+}
+
+// 消息格式
+type Resp struct {
+	Code   string                 `json:"code" desc:"代码"`
+	Msg    string                 `json:"msg" desc:"描述"`
+	MyData map[string]interface{} `json:"data" desc:"数据"`
+}
+
+func (this *BaseController) Set(key string, value interface{}) {
+	if this.Resp.MyData == nil {
+		this.Code = "ok"
+		this.Msg = "success"
+		this.MyData = make(map[string]interface{})
+	}
+	this.MyData[key] = value
+	this.Data["json"] = this.Resp
 }
 
 // 响应错误
 func (this *BaseController) ResponseError(code string, err error) {
-	response := &models.RespCode{
-		Code:    code,
-		Message: err.Error(),
-		Data:    nil,
-	}
-	this.Ctx.Output.JSON(response, true, true)
+	this.Resp.Code = code
+	this.Resp.Msg = err.Error()
+	this.Ctx.Output.JSON(this.Resp, true, true)
 	this.StopRun()
 }
 
@@ -27,24 +41,11 @@ func (this *BaseController) ResponseHttpError(status int, code string, err error
 }
 
 // 服务器报错
-func (this *BaseController) ResponseServerError(code string, err error) {
+func (this *BaseController) ServerError(code string, err error) {
 	this.ResponseHttpError(500, code, err)
 }
 
 // 客户端请求报错
-func (this *BaseController) ResponseClientError(code string, err error) {
+func (this *BaseController) ClientError(code string, err error) {
 	this.ResponseHttpError(400, code, err)
-}
-
-// 响应成功
-func (this *BaseController) ResponseSuccess(key string, value interface{}) {
-	this.Ctx.Output.Status = 200
-	response := &models.RespCode{
-		Code:    "ok",
-		Message: "success",
-		Data:    map[string]interface{}{},
-	}
-	response.Data[key] = value
-	this.Ctx.Output.JSON(response, true, true)
-	this.StopRun()
 }

@@ -26,6 +26,7 @@ main.go  # 程序入口
 
 
 # 测试接口
+ps: domainname和appname在conf/app.conf里面定义
 http://{ip}:{port}/{domainname}/{appname}/test/v1
 例如：
 1. say hello
@@ -39,7 +40,7 @@ http://localhost:8080/api.fenggese.com/beego-template/test/v1
     }
 }
 ```
-服务端报错: http://localhost:8080/api.fenggese.com/beego-template/test/v1/400
+2. 服务端报错: http://localhost:8080/api.fenggese.com/beego-template/test/v1/400
 ```
 {
     code: "test:Error500",
@@ -47,7 +48,7 @@ http://localhost:8080/api.fenggese.com/beego-template/test/v1
     data: null
 }
 ```
-客户端报错: http://localhost:8080/api.fenggese.com/beego-template/test/v1/500
+3. 客户端报错: http://localhost:8080/api.fenggese.com/beego-template/test/v1/500
 ```
 {
     code: "test:Error400",
